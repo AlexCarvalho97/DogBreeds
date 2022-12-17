@@ -17,4 +17,6 @@ data class Breed(
     val weight: Weight = Weight(),
     @SerializedName("height")
     val height: Height = Height(),
+    @SerializedName("image")
+    val image: Image = Image(),
 )
