@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alexc.dogbreeds.presentation.breedlist.BreedList
+import com.alexc.dogbreeds.presentation.breedlist.BreedListScreen
 import com.alexc.dogbreeds.ui.theme.DogBreedsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         composable("breed_list") {
-                            BreedList(navController)
+                            BreedListScreen(navController)
                         }
 
                     }
