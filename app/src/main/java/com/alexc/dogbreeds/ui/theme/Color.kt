@@ -2,7 +2,7 @@ package com.alexc.dogbreeds.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val BackgroundColorLight = Color(0xFFFFFFFF)
+val PrimaryLight =  Color(0xFF5BB38F)
+val SecondaryLight = Color(0xFF96AFA4)
+val SurfaceLight = Color(0xFFF7F9F8)
