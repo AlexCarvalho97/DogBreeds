@@ -10,6 +10,7 @@ interface TheDogApi {
     @GET(ApiConstants.API_GET_BREEDS)
     suspend fun getBreeds(
         @Query(ApiConstants.API_PAGE_QUERY) page: Int = 0,
+        @Query(ApiConstants.API_ORDER_QUERY) asc: String = "asc",
         @Query(ApiConstants.API_LIMIT_QUERY) limit: Int = 20,
         @Query(ApiConstants.API_KEY_QUERY) apiKey: String = ApiConstants.API_KEY
     ): List<Breed>

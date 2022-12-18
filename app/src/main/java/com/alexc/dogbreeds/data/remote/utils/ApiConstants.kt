@@ -11,5 +11,6 @@ object ApiConstants {
     const val API_KEY_QUERY = "api_key"
     const val API_SEARCH_QUERY = "q"
     const val API_LIMIT_QUERY = "limit"
+    const val API_ORDER_QUERY = "order"
     const val API_PAGE_QUERY = "page"
 }
