@@ -8,7 +8,12 @@ interface IBreedsRepository {
 
     suspend fun getBreeds(
         page: Int = 0,
+        asc: Boolean = true,
         limit: Int = 20
     ): Flow<Resource<List<Breed>>>
 
+    suspend fun getBreedsForKeyword(
+        keyword: String = "",
+        limit: Int = 10
+    ): Flow<Resource<List<Breed>>>
 }

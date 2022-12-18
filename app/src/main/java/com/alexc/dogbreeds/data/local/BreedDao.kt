@@ -18,4 +18,8 @@ interface BreedDao {
 
     @Query("SELECT * FROM breedentity")
     suspend fun getBreeds(): List<BreedEntity>
+
+    @Query("SELECT * FROM breedentity WHERE name LIKE '%' || :keyword || '%'")
+    suspend fun getBreeds(keyword: String): List<BreedEntity>
+
 }

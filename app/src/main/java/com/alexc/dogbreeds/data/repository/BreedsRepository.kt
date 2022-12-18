@@ -47,7 +47,8 @@ class BreedsRepository @Inject constructor(
                 Resource.Success(
                     data = sortedBreeds.map { it.toBreed() },
                     fromCache = true
-            ))
+                )
+            )
         }
 
         // Get breeds from network
@@ -69,5 +70,33 @@ class BreedsRepository @Inject constructor(
         }.let {
             dao.insertBreeds(it)
         }
+    }
+
+    override suspend fun getBreedsForKeyword(
+        keyword: String,
+        limit: Int
+    ): Flow<Resource<List<Breed>>> = flow {
+
+        emit(Resource.Loading(true))
+
+        val cachedBreeds = dao.getBreeds(keyword)
+
+        emit(
+            Resource.Success(
+                data = cachedBreeds.map { it.toBreed() },
+                fromCache = true
+            )
+        )
+
+        val response = try {
+            api.getBreedsBySearch(keyword)
+        } catch (e: Exception) {
+            emit(Resource.Loading(false))
+            emit(Resource.Error("An error occurred while obtaining breeds"))
+            return@flow
+        }
+
+        emit(Resource.Loading(false))
+        emit(Resource.Success(response))
     }
 }
