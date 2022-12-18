@@ -33,7 +33,7 @@ fun BreedListScreen(
 ) {
     val breedListState = viewModel.state
 
-    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Expanded)
+    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = sheetState
     )

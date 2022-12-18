@@ -11,12 +11,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.alexc.dogbreeds.presentation.breedlist.BreedListScreen
+import com.alexc.dogbreeds.presentation.breedsearch.BreedSearchScreen
+import com.alexc.dogbreeds.presentation.navigation.BottomBar
 import com.alexc.dogbreeds.ui.theme.DogBreedsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,6 +28,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(
+                    bottomBar = {
+                        BottomBar(navController)
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .background(androidx.compose.ui.graphics.Color.White)
@@ -40,6 +46,9 @@ class MainActivity : ComponentActivity() {
                             BreedListScreen(navController)
                         }
 
+                        composable("breed_search") {
+                            BreedSearchScreen(navController)
+                        }
                     }
                 }
             }
