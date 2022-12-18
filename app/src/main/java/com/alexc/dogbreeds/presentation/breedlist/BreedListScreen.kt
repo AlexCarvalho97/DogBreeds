@@ -1,5 +1,6 @@
 package com.alexc.dogbreeds.presentation.breedlist
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +22,6 @@ import com.alexc.dogbreeds.presentation.breedlist.viewmodel.BreedListEvent
 import com.alexc.dogbreeds.presentation.breedlist.viewmodel.BreedListViewModel
 import com.alexc.dogbreeds.ui.theme.BackgroundColorLight
 import com.alexc.dogbreeds.ui.theme.PrimaryLight
-import com.alexc.dogbreeds.ui.theme.SurfaceLight
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -54,11 +54,17 @@ fun BreedListScreen(
             )
         },
         backgroundColor = BackgroundColorLight,
-        sheetElevation = 23.dp,
+        sheetElevation = 12.dp,
         sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-        sheetBackgroundColor = SurfaceLight,
+        sheetBackgroundColor = BackgroundColorLight,
         sheetPeekHeight = 0.dp
     ) {
+
+        BackHandler(enabled = sheetState.isExpanded) {
+            scope.launch {
+                sheetState.collapse()
+            }
+        }
 
         Column(
             modifier = modifier.padding(horizontal = 25.dp),
@@ -67,7 +73,7 @@ fun BreedListScreen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Row{
+            Row {
                 Text(
                     text = "Discover Dog Breeds",
                     fontWeight = FontWeight.Bold,
@@ -83,7 +89,7 @@ fun BreedListScreen(
                         .align(Alignment.CenterVertically)
                         .clickable {
                             scope.launch {
-                                if(sheetState.isCollapsed) {
+                                if (sheetState.isCollapsed) {
                                     sheetState.expand()
                                 } else {
                                     sheetState.collapse()
