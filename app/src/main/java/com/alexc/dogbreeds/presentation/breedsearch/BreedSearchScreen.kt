@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.alexc.dogbreeds.presentation.breedlist.composes.listview.BreedListViewCard
+import com.alexc.dogbreeds.presentation.breedsearch.composes.BreedSearchCard
 import com.alexc.dogbreeds.presentation.breedsearch.composes.SearchInfoView
 import com.alexc.dogbreeds.presentation.breedsearch.viewmodel.BreedSearchEvent
 import com.alexc.dogbreeds.presentation.breedsearch.viewmodel.BreedSearchViewModel
@@ -72,9 +72,12 @@ fun BreedSearchScreen(
             )
         )
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 25.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
+        ){
             items(state.breedList.size) {
-                BreedListViewCard(breedItem = state.breedList[it], navController = navController)
+                BreedSearchCard(breedItem = state.breedList[it], navController = navController)
             }
         }
 
