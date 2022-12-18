@@ -34,7 +34,9 @@ fun BreedGridViewCard(
             .shadow(2.dp, shape = RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
             .clickable {
-                // TODO navigate to details
+                navController.navigate(
+                    "breed_details/${breedItem.id}"
+                )
             }
             .background(SurfaceLight),
     ) {

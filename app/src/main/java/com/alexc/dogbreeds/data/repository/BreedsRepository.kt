@@ -7,6 +7,7 @@ import com.alexc.dogbreeds.common.utils.toBreedEntity
 import com.alexc.dogbreeds.data.local.BreedDatabase
 import com.alexc.dogbreeds.domain.models.Breed
 import com.alexc.dogbreeds.data.remote.TheDogApi
+import com.alexc.dogbreeds.domain.models.Image
 import com.alexc.dogbreeds.domain.repository.IBreedsRepository
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.flow.Flow
@@ -98,5 +99,41 @@ class BreedsRepository @Inject constructor(
 
         emit(Resource.Loading(false))
         emit(Resource.Success(response))
+    }
+
+    override suspend fun getBreed(
+        id: Int
+    ): Flow<Resource<Breed>> = flow {
+
+        if (id == null) {
+            emit(Resource.Error("Something went wrong"))
+            return@flow
+        }
+
+        emit(Resource.Loading(true))
+        dao.getBreed(id)?.let {
+            emit(
+                Resource.Success(
+                    data = it.toBreed(), fromCache = true
+                )
+            )
+        }
+
+        val response = try {
+            api.getBreedById(id)
+        } catch (e: Exception) {
+            emit(Resource.Loading(false))
+            emit(Resource.Error("Something went wrong"))
+            return@flow
+        }
+
+        emit(Resource.Loading(false))
+        emit(Resource.Success(response))
+    }
+
+    override suspend fun getBreedImage(imageId: String): Image = try {
+        api.getBreedImage(imageId)
+    }catch (e: Exception){
+        Image()
     }
 }

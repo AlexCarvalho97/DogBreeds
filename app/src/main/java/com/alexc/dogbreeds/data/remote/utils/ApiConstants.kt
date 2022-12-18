@@ -7,6 +7,7 @@ object ApiConstants {
 
     const val API_GET_BREEDS = "breeds/"
     const val API_GET_BREEDS_SEARCH = "breeds/search"
+    const val API_GET_IMAGES = "images/"
 
     const val API_KEY_QUERY = "api_key"
     const val API_SEARCH_QUERY = "q"

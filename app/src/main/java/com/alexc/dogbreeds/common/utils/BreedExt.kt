@@ -14,7 +14,8 @@ fun BreedEntity.toBreed(): Breed = Breed(
     origin = origin,
     weight = Weight(metric = weight),
     height = Height(metric = height),
-    image = Image(imageUrl = imageUrl)
+    image = Image(imageUrl = imageUrl),
+    imageId = imageId
 )
 
 
@@ -26,5 +27,6 @@ fun Breed.toBreedEntity(): BreedEntity = BreedEntity(
     origin = origin,
     weight = weight.metric,
     height = height.metric,
-    imageUrl = image.imageUrl
+    imageUrl = image.imageUrl,
+    imageId = imageId
 )

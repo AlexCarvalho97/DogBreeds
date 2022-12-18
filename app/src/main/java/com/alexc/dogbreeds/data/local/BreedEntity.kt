@@ -12,5 +12,6 @@ data class BreedEntity(
     val weight: String,
     val origin: String,
     val height: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val imageId: String
 )

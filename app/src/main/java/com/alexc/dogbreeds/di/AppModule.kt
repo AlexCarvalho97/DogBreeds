@@ -41,9 +41,7 @@ class AppModule {
     @Singleton
     fun provideBreedDatabase(app: Application): BreedDatabase {
         return Room.databaseBuilder(
-            app,
-            BreedDatabase::class.java,
-            "bread.db"
-        ).build()
+            app, BreedDatabase::class.java, "bread.db"
+        ).fallbackToDestructiveMigration().build()
     }
 }
