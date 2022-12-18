@@ -47,6 +47,7 @@ class BreedListViewModel @Inject constructor(
                 // We clean the previous list and make a new request with the new filter
                 state = state.copy(
                     isAscending = !state.isAscending,
+                    page = 0,
                     breedList = emptyList())
                 loadBreeds()
             }
