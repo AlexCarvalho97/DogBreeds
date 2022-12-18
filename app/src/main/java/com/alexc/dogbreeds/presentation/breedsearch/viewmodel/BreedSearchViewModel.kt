@@ -1,6 +1,5 @@
 package com.alexc.dogbreeds.presentation.breedsearch.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -29,13 +28,12 @@ class BreedSearchViewModel @Inject constructor(
         when (event) {
             is BreedSearchEvent.OnSearch -> {
                 if (event.searchWord.isEmpty()) {
-                    Log.d("boas", "empty")
                     state = BreedSearchState()
                 } else {
-                    Log.d("boas", "search")
-
                     state = state.copy(searchWord = event.searchWord)
+                    // Cancel Previous search
                     searchJob?.cancel()
+                    // Set queue for Next one
                     searchJob = viewModelScope.launch {
                         delay(500L)
                         searchBreed()
