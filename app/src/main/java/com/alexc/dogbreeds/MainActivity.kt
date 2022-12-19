@@ -17,6 +17,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.alexc.dogbreeds.common.utils.BREED_DETAILS_SCREEN
+import com.alexc.dogbreeds.common.utils.BREED_LIST_SCREEN
+import com.alexc.dogbreeds.common.utils.BREED_SEARCH_SCREEN
 import com.alexc.dogbreeds.presentation.BreedDetailsScreen
 import com.alexc.dogbreeds.presentation.breedlist.BreedListScreen
 import com.alexc.dogbreeds.presentation.breedsearch.BreedSearchScreen
@@ -38,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 val bottomBarEnabled = rememberSaveable { (mutableStateOf(true)) }
 
                 when (navBackStackEntry?.destination?.route) {
-                    "breed_details/{breedId}" -> bottomBarEnabled.value = false
+                    "$BREED_DETAILS_SCREEN/{breedId}" -> bottomBarEnabled.value = false
                     else -> bottomBarEnabled.value = true
                 }
 
@@ -55,19 +58,19 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "breed_list",
+                        startDestination = BREED_LIST_SCREEN,
                         modifier = Modifier.padding(padding)
                     ) {
 
-                        composable("breed_list") {
+                        composable(BREED_LIST_SCREEN) {
                             BreedListScreen(navController)
                         }
 
-                        composable("breed_search") {
+                        composable(BREED_SEARCH_SCREEN) {
                             BreedSearchScreen(navController)
                         }
 
-                        composable("breed_details/{breedId}", arguments = listOf(navArgument("breedId") {
+                        composable("$BREED_DETAILS_SCREEN/{breedId}", arguments = listOf(navArgument("breedId") {
                             type = NavType.IntType
                         })) {
                             remember {

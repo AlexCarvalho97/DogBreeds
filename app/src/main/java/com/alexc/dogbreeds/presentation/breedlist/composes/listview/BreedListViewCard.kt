@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.alexc.dogbreeds.common.utils.navigateToDetails
 import com.alexc.dogbreeds.domain.models.Breed
 import com.alexc.dogbreeds.ui.theme.QuickSand
 import com.alexc.dogbreeds.ui.theme.SurfaceLight
@@ -35,9 +36,7 @@ fun BreedListViewCard(
         .shadow(2.dp, shape = RoundedCornerShape(10.dp))
         .clip(RoundedCornerShape(10.dp))
         .clickable {
-            navController.navigate(
-                "breed_details/${breedItem.id}"
-            )
+            navController.navigateToDetails(breedItem.id)
         }
         .background(SurfaceLight)
     ) {
