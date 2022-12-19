@@ -16,6 +16,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindBreedRepository(
-        stockBreedRepository: BreedsRepository
+        breedsRepository: BreedsRepository
     ): IBreedsRepository
 }

@@ -98,6 +98,13 @@ class BreedsRepository @Inject constructor(
 
         emit(Resource.Loading(false))
         emit(Resource.Success(response))
+
+        // Update cache
+        response.map {
+            it.toBreedEntity()
+        }.let {
+            dao.insertBreeds(it)
+        }
     }
 
     override suspend fun getBreed(
@@ -128,6 +135,9 @@ class BreedsRepository @Inject constructor(
 
         emit(Resource.Loading(false))
         emit(Resource.Success(response))
+
+        // Update cache
+        dao.insertBreeds(arrayListOf(response.toBreedEntity()))
     }
 
     override suspend fun getBreedImage(imageId: String): Image = try {
