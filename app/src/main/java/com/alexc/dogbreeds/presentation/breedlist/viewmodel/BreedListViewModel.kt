@@ -74,6 +74,10 @@ class BreedListViewModel @Inject constructor(
                                     }
                                     state.page++
                                 }
+                            } else {
+                                if (state.page == 0) {
+                                    state = state.copy(breedList = emptyList())
+                                }
                             }
 
                             result.data?.let { breeds ->

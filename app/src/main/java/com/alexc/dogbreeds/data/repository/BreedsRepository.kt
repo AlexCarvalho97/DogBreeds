@@ -1,6 +1,5 @@
 package com.alexc.dogbreeds.data.repository
 
-import android.util.Log
 import com.alexc.dogbreeds.common.Resource
 import com.alexc.dogbreeds.common.utils.toBreed
 import com.alexc.dogbreeds.common.utils.toBreedEntity
@@ -39,7 +38,7 @@ class BreedsRepository @Inject constructor(
                     it.name
                 }
             } else {
-                cachedBreeds.sortedBy {
+                cachedBreeds.sortedByDescending {
                     it.name
                 }
             }
