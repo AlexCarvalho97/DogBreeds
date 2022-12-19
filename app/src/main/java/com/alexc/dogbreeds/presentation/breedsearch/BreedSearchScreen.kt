@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.dogbreeds.presentation.breedsearch.composes.BreedSearchCard
-import com.alexc.dogbreeds.presentation.breedsearch.composes.SearchInfoView
+import com.alexc.dogbreeds.presentation.breedsearch.composes.InfoView
 import com.alexc.dogbreeds.presentation.breedsearch.viewmodel.BreedSearchEvent
 import com.alexc.dogbreeds.presentation.breedsearch.viewmodel.BreedSearchViewModel
 import com.alexc.dogbreeds.ui.theme.PrimaryLight
@@ -93,17 +93,17 @@ fun BreedSearchScreen(
                 }
                 state.isError -> {
                     if(state.breedList.isEmpty()) {
-                        SearchInfoView(message = state.errorMessage)
+                        InfoView(message = state.errorMessage)
                     }
                 }
                 state.breedList.isEmpty() -> {
                     if (state.searchWord.isEmpty()) {
-                        SearchInfoView(
+                        InfoView(
                             icon = Icons.Rounded.Create,
                             message = "Type something"
                         )
                     } else {
-                        SearchInfoView(message = "No Breeds found")
+                        InfoView(message = "No Breeds found")
                     }
                 }
             }

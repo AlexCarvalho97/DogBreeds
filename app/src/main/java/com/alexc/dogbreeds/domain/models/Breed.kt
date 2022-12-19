@@ -21,4 +21,6 @@ data class Breed(
     val image: Image = Image(),
     @SerializedName("reference_image_id")
     val imageId: String = "",
+    @SerializedName("temperament")
+    val temperament: String = ""
 )

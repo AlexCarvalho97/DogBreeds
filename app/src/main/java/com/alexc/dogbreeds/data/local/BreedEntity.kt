@@ -13,5 +13,6 @@ data class BreedEntity(
     val origin: String,
     val height: String,
     val imageUrl: String,
-    val imageId: String
+    val imageId: String,
+    val temperament: String
 )

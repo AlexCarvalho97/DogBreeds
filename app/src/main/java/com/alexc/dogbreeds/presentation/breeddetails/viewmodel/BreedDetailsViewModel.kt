@@ -30,9 +30,13 @@ class BreedDetailsViewModel @Inject constructor(
                         is Resource.Loading -> state = state.copy(isLoading = true)
                         is Resource.Success -> {
                             result.data?.let { breed ->
-                                val image = repository.getBreedImage(breed.imageId)
-                                result.data.copy(image = image).also { breedWithImage ->
-                                    state = state.copy(breed = breedWithImage)
+                                if (breed.image.imageUrl.isNullOrEmpty()) {
+                                    val image = repository.getBreedImage(breed.imageId)
+                                    result.data.copy(image = image).also { breedWithImage ->
+                                        state = state.copy(breed = breedWithImage)
+                                    }
+                                } else {
+                                    state = state.copy(breed = breed)
                                 }
                             }
                         }

@@ -20,12 +20,12 @@ import com.alexc.dogbreeds.ui.theme.QuickSand
 
 
 @Composable
-fun SearchInfoView(
+fun InfoView(
     icon: ImageVector = Icons.Rounded.ErrorOutline,
     message: String = "Something went wrong",
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier) {
         Icon(
             imageVector = icon,
             contentDescription = message,
