@@ -8,6 +8,7 @@ import com.alexc.dogbreeds.domain.models.Breed
 data class BreedListState(
     val breedList: List<Breed> = emptyList(),
     val isLoading: Boolean = false,
+    val isError: Boolean = false,
     val isRefreshing: Boolean = false,
     val listType: ListType = ListType.LIST,
     val isAscending: Boolean = true,

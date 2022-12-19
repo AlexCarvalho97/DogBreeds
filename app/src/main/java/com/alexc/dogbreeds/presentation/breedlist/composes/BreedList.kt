@@ -7,6 +7,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.alexc.dogbreeds.presentation.breedlist.composes.listview.BreedListVie
 import com.alexc.dogbreeds.presentation.breedlist.viewmodel.BreedListEvent
 import com.alexc.dogbreeds.presentation.breedlist.viewmodel.BreedListViewModel
 import com.alexc.dogbreeds.presentation.breedlist.viewmodel.ListType
+import com.alexc.dogbreeds.presentation.breedsearch.composes.InfoView
 import com.alexc.dogbreeds.ui.theme.PrimaryLight
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
@@ -61,17 +63,10 @@ fun BreedList(
 
         when {
             viewModel.state.isLoading && viewModel.state.page == 0 -> {
-                Box(Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .align(Alignment.Center),
-                        color = PrimaryLight
-                    )
-                }
+                LoadingIndicator(Modifier.fillMaxSize())
             }
-            !viewModel.state.isLoading && viewModel.state.breedList.isEmpty() -> {
-                LazyColumn(Modifier.fillMaxSize()) {} // We add this compose to allow refresh when list is empty
+            viewModel.state.isError -> {
+                ErrorIndicator()
             }
             else -> {
                 LazyColumn(
@@ -115,19 +110,40 @@ fun BreedList(
                     }
 
                     item {
+                        // If its loading and its not first page, its a load more
+                        // Display bottom circular progress
                         if (viewModel.state.isLoading && viewModel.state.page != 0) {
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .align(Alignment.Center),
-                                    color = PrimaryLight
-                                )
-                            }
+                            LoadingIndicator(modifier = Modifier.fillMaxWidth())
                         }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun LoadingIndicator(modifier: Modifier = Modifier) {
+    Box(modifier) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .padding(10.dp)
+                .align(Alignment.Center),
+            color = PrimaryLight
+        )
+    }
+}
+
+@Composable
+fun ErrorIndicator() {
+    Box(
+        Modifier.fillMaxSize(),
+        contentAlignment = Center
+    ) {
+        InfoView(
+            message = "It was not possible to retrieve the breeds",
+        )
+    }
+    // We add this compose to allow refresh when list is empty
+    LazyColumn(Modifier.fillMaxSize()) {}
 }

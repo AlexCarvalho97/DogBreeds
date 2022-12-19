@@ -75,23 +75,28 @@ class BreedListViewModel @Inject constructor(
                                 if (!result.data.isNullOrEmpty()) {
                                     if (state.page == 0) {
                                         // if is the first page and its not cache clean the previous list to set the new updated one
-                                        state = state.copy(breedList = emptyList())
+                                        state = state.copy(breedList = emptyList(), isError = false)
                                     }
                                     state.page++
                                 }
                             } else {
                                 if (state.page == 0) {
-                                    state = state.copy(breedList = emptyList())
+                                    state = state.copy(breedList = emptyList(), isError = false)
                                 }
                             }
 
                             result.data?.let { breeds ->
                                 val list = state.breedList + breeds
-                                state = state.copy(breedList = list)
+                                state = state.copy(breedList = list, isError = false)
                             }
                         }
                         is Resource.Error -> {
                             _errorMessage.send(ErrorResponse(result.message ?: ""))
+                            // If its error and list it's empty, we were unable to retrieve
+                            // items from cache and network
+                            if (state.breedList.isEmpty()) {
+                                state = state.copy(isError = true)
+                            }
                         }
 
                         is Resource.Loading -> {
