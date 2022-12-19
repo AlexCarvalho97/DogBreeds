@@ -70,7 +70,9 @@ fun BreedList(
                     )
                 }
             }
-
+            !viewModel.state.isLoading && viewModel.state.breedList.isEmpty() -> {
+                LazyColumn(Modifier.fillMaxSize()) {} // We add this compose to allow refresh when list is empty
+            }
             else -> {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(15.dp)
