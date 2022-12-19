@@ -6,11 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.alexc.dogbreeds.presentation.BreedDetailsScreen
@@ -30,10 +34,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             DogBreedsTheme {
                 val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val bottomBarEnabled = rememberSaveable { (mutableStateOf(true)) }
+
+                when (navBackStackEntry?.destination?.route) {
+                    "breed_details/{breedId}" -> bottomBarEnabled.value = false
+                    else -> bottomBarEnabled.value = true
+                }
 
                 Scaffold(
                     bottomBar = {
-                        BottomBar(navController)
+                        if (bottomBarEnabled.value) {
+                            BottomBar(navController)
+                        }
                     },
                     modifier = Modifier
                         .fillMaxSize()
