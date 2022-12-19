@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alexc.dogbreeds.common.utils.navigateToDetails
 import com.alexc.dogbreeds.domain.models.Breed
+import com.alexc.dogbreeds.ui.theme.PrimaryLight
 import com.alexc.dogbreeds.ui.theme.QuickSand
 import com.alexc.dogbreeds.ui.theme.SurfaceLight
 import com.google.accompanist.coil.rememberCoilPainter
@@ -51,7 +52,7 @@ fun BreedListViewCard(
                     .clip(RoundedCornerShape(10.dp))
                     .drawWithCache {
                         val gradient = Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color(0xFF2E3959)),
+                            colors = listOf(Color.Transparent, PrimaryLight),
                             startY = size.height / 10,
                             endY = size.height
                         )
