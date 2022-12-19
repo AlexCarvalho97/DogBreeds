@@ -9,7 +9,6 @@ data class BreedListState(
     val breedList: List<Breed> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val error: String? = null,
     val listType: ListType = ListType.LIST,
     val isAscending: Boolean = true,
     var page: Int = 0

@@ -1,15 +1,14 @@
 package com.alexc.dogbreeds.presentation.breedlist.composes
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,6 +22,7 @@ import com.alexc.dogbreeds.ui.theme.PrimaryLight
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun BreedList(
@@ -30,6 +30,17 @@ fun BreedList(
     navController: NavController,
     viewModel: BreedListViewModel = hiltViewModel()
 ) {
+
+    // Collect error message and display toast if any
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.errorMessage.collectLatest {
+            if (it.message.isNotEmpty()) {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     // Deprecated but PullToRefresh is not working properly yet and it is experimental
     val swipeRefreshState = rememberSwipeRefreshState(viewModel.state.isRefreshing)
 
@@ -47,54 +58,71 @@ fun BreedList(
             )
         }
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
 
-                when(viewModel.state.listType){
-                    ListType.GRID -> {
-                        val itemCount = if (breeds.size % 2 == 0) {
-                            breeds.size / 2
-                        } else {
-                            breeds.size / 2 + 1
-                        }
-
-                        items(itemCount) {
-                            if (it >= itemCount - 1) {
-                                LaunchedEffect(key1 = true) {
-                                    viewModel.onEvent(BreedListEvent.OnLoadMore)
-                                }
-                            }
-
-                            BreedGridViewRow(
-                                rowIndex = it,
-                                breedList = breeds,
-                                navController = navController)
-                        }
-                    }
-
-
-                    ListType.LIST -> {
-                        items(breeds.count()) {
-                            if (it >= breeds.count() - 1) {
-                                LaunchedEffect(key1 = true) {
-                                    viewModel.onEvent(BreedListEvent.OnLoadMore)
-                                }
-                            }
-                            BreedListViewCard(breeds[it], navController)
-                        }
-                    }
+        when {
+            viewModel.state.isLoading && viewModel.state.page == 0 -> {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .align(Alignment.Center),
+                        color = PrimaryLight
+                    )
                 }
+            }
 
-            item {
-                if (viewModel.state.isLoading && viewModel.state.page != 0) {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .align(Alignment.Center),
-                            color = PrimaryLight
-                        )
+            else -> {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+
+                    when (viewModel.state.listType) {
+                        ListType.GRID -> {
+                            val itemCount = if (breeds.size % 2 == 0) {
+                                breeds.size / 2
+                            } else {
+                                breeds.size / 2 + 1
+                            }
+
+                            items(itemCount) {
+                                if (it >= itemCount - 1) {
+                                    LaunchedEffect(key1 = true) {
+                                        viewModel.onEvent(BreedListEvent.OnLoadMore)
+                                    }
+                                }
+
+                                BreedGridViewRow(
+                                    rowIndex = it,
+                                    breedList = breeds,
+                                    navController = navController
+                                )
+                            }
+                        }
+
+
+                        ListType.LIST -> {
+                            items(breeds.count()) {
+                                if (it >= breeds.count() - 1) {
+                                    LaunchedEffect(key1 = true) {
+                                        viewModel.onEvent(BreedListEvent.OnLoadMore)
+                                    }
+                                }
+                                BreedListViewCard(breeds[it], navController)
+                            }
+                        }
+                    }
+
+                    item {
+                        if (viewModel.state.isLoading && viewModel.state.page != 0) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .align(Alignment.Center),
+                                    color = PrimaryLight
+                                )
+                            }
+                        }
                     }
                 }
             }

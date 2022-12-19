@@ -6,9 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexc.dogbreeds.common.ErrorResponse
 import com.alexc.dogbreeds.common.Resource
 import com.alexc.dogbreeds.data.repository.BreedsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,8 @@ class BreedListViewModel @Inject constructor(
 
     var state by mutableStateOf(BreedListState())
 
+    private val _errorMessage = Channel<ErrorResponse>()
+    val errorMessage = _errorMessage.receiveAsFlow()
 
     init {
         // Load first page
@@ -42,13 +47,13 @@ class BreedListViewModel @Inject constructor(
                 loadBreeds()
             }
 
-            is BreedListEvent.OnToggleFilter ->
-            {
+            is BreedListEvent.OnToggleFilter -> {
                 // We clean the previous list and make a new request with the new filter
                 state = state.copy(
                     isAscending = !state.isAscending,
                     page = 0,
-                    breedList = emptyList())
+                    breedList = emptyList()
+                )
                 loadBreeds()
             }
             is BreedListEvent.OnChangeListType -> {
@@ -86,8 +91,9 @@ class BreedListViewModel @Inject constructor(
                             }
                         }
                         is Resource.Error -> {
-                            state = state.copy(error = result.message)
+                            _errorMessage.send(ErrorResponse(result.message ?: ""))
                         }
+
                         is Resource.Loading -> {
                             state = state.copy(isLoading = result.isLoading)
                         }

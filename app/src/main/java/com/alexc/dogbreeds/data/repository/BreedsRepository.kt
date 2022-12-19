@@ -57,7 +57,7 @@ class BreedsRepository @Inject constructor(
             api.getBreeds(page, order, limit)
         } catch (e: Exception) {
             emit(Resource.Loading(false))
-            emit(Resource.Error("An error occurred while obtaining breeds"))
+            emit(Resource.Error("An error occurred while obtaining breeds from network"))
             return@flow
         }
 
@@ -92,7 +92,7 @@ class BreedsRepository @Inject constructor(
             api.getBreedsBySearch(keyword)
         } catch (e: Exception) {
             emit(Resource.Loading(false))
-            emit(Resource.Error("An error occurred while obtaining breeds"))
+            emit(Resource.Error("An error occurred while obtaining breeds from network"))
             return@flow
         }
 
@@ -122,7 +122,7 @@ class BreedsRepository @Inject constructor(
             api.getBreedById(id)
         } catch (e: Exception) {
             emit(Resource.Loading(false))
-            emit(Resource.Error("Something went wrong"))
+            emit(Resource.Error("An error occurred while obtaining breed from network"))
             return@flow
         }
 

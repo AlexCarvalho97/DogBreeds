@@ -6,9 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexc.dogbreeds.common.ErrorResponse
 import com.alexc.dogbreeds.common.Resource
 import com.alexc.dogbreeds.data.repository.BreedsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +22,9 @@ class BreedDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(BreedDetailsState())
+
+    private val _errorMessage = Channel<ErrorResponse>()
+    val errorMessage = _errorMessage.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -41,9 +47,7 @@ class BreedDetailsViewModel @Inject constructor(
                             }
                         }
                         is Resource.Error -> {
-                            if (state.breed == null) {
-                                state = state.copy(isError = true)
-                            }
+                            _errorMessage.send(ErrorResponse(result.message ?: ""))
                         }
                     }
                 }
