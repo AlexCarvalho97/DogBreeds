@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.alexc.dogbreeds.data.local.BreedDatabase
 import com.alexc.dogbreeds.data.remote.TheDogApi
 import com.alexc.dogbreeds.data.remote.utils.ApiConstants
-import com.alexc.dogbreeds.data.repository.BreedsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,15 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
-
-    @Singleton
-    @Provides
-    fun provideBreedsRepository(
-        api: TheDogApi,
-        breedDatabase: BreedDatabase
-    ) = BreedsRepository(api, breedDatabase)
-
+object AppModule {
 
     @Singleton
     @Provides

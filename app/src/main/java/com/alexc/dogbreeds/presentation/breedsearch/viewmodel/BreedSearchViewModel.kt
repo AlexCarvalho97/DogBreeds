@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexc.dogbreeds.common.Resource
-import com.alexc.dogbreeds.data.repository.BreedsRepository
+import com.alexc.dogbreeds.domain.repository.IBreedsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BreedSearchViewModel @Inject constructor(
-    private val repository: BreedsRepository
+    private val repository: IBreedsRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(BreedSearchState())

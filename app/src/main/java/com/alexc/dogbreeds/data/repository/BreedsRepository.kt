@@ -8,13 +8,13 @@ import com.alexc.dogbreeds.domain.models.Breed
 import com.alexc.dogbreeds.data.remote.TheDogApi
 import com.alexc.dogbreeds.domain.models.Image
 import com.alexc.dogbreeds.domain.repository.IBreedsRepository
-import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
-@ActivityScoped
+@Singleton
 class BreedsRepository @Inject constructor(
     private val api: TheDogApi,
     private val db: BreedDatabase
