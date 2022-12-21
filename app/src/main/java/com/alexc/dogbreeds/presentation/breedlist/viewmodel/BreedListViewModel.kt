@@ -37,7 +37,6 @@ class BreedListViewModel @Inject constructor(
     fun onEvent(event: BreedListEvent) {
         when (event) {
             is BreedListEvent.OnLoadMore -> {
-                Log.d("BreedListViewModel", "load page " + state.page)
                 loadBreeds(state.page)
             }
 
@@ -91,12 +90,14 @@ class BreedListViewModel @Inject constructor(
                             }
                         }
                         is Resource.Error -> {
-                            _errorMessage.send(ErrorResponse(result.message ?: ""))
                             // If its error and list it's empty, we were unable to retrieve
                             // items from cache and network
                             if (state.breedList.isEmpty()) {
                                 state = state.copy(isError = true)
                             }
+
+                            _errorMessage.send(ErrorResponse(result.message ?: ""))
+
                         }
 
                         is Resource.Loading -> {
